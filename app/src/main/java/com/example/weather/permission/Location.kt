@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Bundle
 import android.os.Looper
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -25,6 +26,9 @@ abstract class Location : Fragment() {
 
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
 
     override fun onStart() {
         super.onStart()

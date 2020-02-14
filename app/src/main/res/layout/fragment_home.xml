@@ -116,6 +116,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
+
+            <SearchView
+                android:id="@+id/search_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_border_blue_et"
+                android:backgroundTint="@color/colorWhite"
+                android:iconifiedByDefault="false"
+                android:padding="@dimen/dimen5dp"
+                android:layout_margin="@dimen/dimen13dp"
+                android:queryHint="Search City"
+                app:iconifiedByDefault="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

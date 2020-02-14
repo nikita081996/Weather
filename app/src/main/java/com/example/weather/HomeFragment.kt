@@ -3,9 +3,8 @@ package com.example.weather
 import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -16,6 +15,7 @@ import com.example.weather.di.injectViewModel
 import com.example.weather.model.ResultResponse
 import com.example.weather.permission.Location
 import com.example.weather.service.Result
+import com.example.weather.utility.AppUtils
 import com.example.weather.utility.KelvinToCelsiusConverter
 import com.example.weather.viewmodel.MyViewModel
 import org.jetbrains.anko.alert
@@ -82,8 +82,23 @@ class HomeFragment : Location(), Injectable, View.OnClickListener {
         navController = Navigation.findNavController(view)
         binding.progressBar.visibility = View.VISIBLE
         binding.forecastBtn.setOnClickListener(this)
+        setUpSearchView()
     }
 
+    private fun setUpSearchView() {
+        binding.searchCity.setQuery("", false)
+        binding.searchCity.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                view?.let { AppUtils.hideKeyboard(it) }
+                getCurrentWeather(query)
+                return true
+            }
+        })
+    }
     private fun getCurrentWeather(city: String) {
         this.city = city
         viewModel.todayWeather(city)
@@ -106,34 +121,6 @@ class HomeFragment : Location(), Injectable, View.OnClickListener {
                     }
                 }
             })
-    }
-
-    fun swipeUp() {
-        /*binding.tvLocation.setOnTouchListener(object : OnSwipeTouchListener(
-            context as
-                    Activity
-        ) {
-            override fun onSwipeLeft() {
-                Toast.makeText(context, "Left", Toast.LENGTH_SHORT).show()
-                Log.e("ViewSwipe", "Left")
-            }
-
-            override fun onSwipeRight() {
-                Toast.makeText(context, "Right", Toast.LENGTH_SHORT).show()
-                Log.e("ViewSwipe", "Right")
-            }
-
-            override fun onSwipeTop() {
-                Toast.makeText(context, "Top", Toast.LENGTH_SHORT).show()
-                Log.e("ViewSwipe", "Top")
-            }
-
-            override fun onSwipeBottom() {
-                Toast.makeText(context, "Bottom", Toast.LENGTH_SHORT).show()
-                Log.e("ViewSwipe", "Bottom")
-            }
-        })*/
-
     }
 
     fun updateView(result: ResultResponse) {
@@ -161,4 +148,15 @@ class HomeFragment : Location(), Injectable, View.OnClickListener {
         }
     }
 
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+
+        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView: SearchView? = searchItem?.actionView as SearchView
+
+        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        return super.onCreateOptionsMenu(menu)
+    }
+*/
 }

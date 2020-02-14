@@ -1,8 +1,13 @@
 package com.example.weather
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -53,4 +58,8 @@ class MainActivity : AppCompatActivity() , HasAndroidInjector {
         }
 
     }
+
+
+
 }
+
