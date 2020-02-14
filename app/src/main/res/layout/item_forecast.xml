@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+     <data>
+
+         <variable
+             name="forecastModel"
+             type="com.example.weather.model.ForecastModel" />
+     </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/patient_details_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dimen5dp"
+                android:text="@{forecastModel.dt_txt}"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/title_20sp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_weather_temp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:background="@color/colorLightGrey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_weather_temp"
+                app:layout_constraintStart_toEndOf="@id/tv_date"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_weather_temp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dimen5dp"
+                android:text="@{forecastModel.temp}"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/title_20sp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_weather_max_min"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tv_date"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                android:background="@color/colorLightGrey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_weather_max_min"
+                app:layout_constraintStart_toEndOf="@id/tv_weather_temp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tv_weather_max_min"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dimen5dp"
+                android:text="@{forecastModel.temp_max_min}"
+                android:textStyle="bold"
+                android:textColor="@color/colorLightBlue"
+                android:textSize="@dimen/title_18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tv_weather_temp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorLightGrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_constraintLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

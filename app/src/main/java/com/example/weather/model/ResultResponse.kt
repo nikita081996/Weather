@@ -33,5 +33,8 @@ data class ResultResponse(
     @Json(name = "name")
     val name: String? = null,
     @Json(name = "cod")
-    val cod: Int? = null
+    val cod: Int? = null,
+    @Json(name = "dt_txt")
+    val dt_txt: String? = null
+
 )

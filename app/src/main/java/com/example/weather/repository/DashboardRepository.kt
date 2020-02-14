@@ -6,7 +6,10 @@ import javax.inject.Inject
 
 class DashboardRepository @Inject constructor(private val remoteSource: DashboardRemoteDataSource) {
 
-    fun updatePassword(q: String) = resultLiveData(
-        networkCall = { remoteSource.updatePassword(q)})
+    fun todayWeather(q: String) = resultLiveData(
+        networkCall = { remoteSource.todayWeather(q)})
+
+    fun forecastWeather(q: String) = resultLiveData(
+        networkCall = { remoteSource.forecastWeather(q)})
 
 }

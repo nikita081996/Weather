@@ -13,4 +13,5 @@
     <dimen name="dimen43dp">43dp</dimen>
     <dimen name="dimen10dp">10dp</dimen>
     <dimen name="dimen5dp">5dp</dimen>
+    <dimen name="title_18sp">18sp</dimen>
 </resources>

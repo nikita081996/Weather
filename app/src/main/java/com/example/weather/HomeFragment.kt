@@ -1,11 +1,11 @@
 package com.example.weather
 
+import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -14,15 +14,50 @@ import com.example.weather.databinding.FragmentHomeBinding
 import com.example.weather.di.Injectable
 import com.example.weather.di.injectViewModel
 import com.example.weather.model.ResultResponse
+import com.example.weather.permission.Location
 import com.example.weather.service.Result
 import com.example.weather.utility.KelvinToCelsiusConverter
 import com.example.weather.viewmodel.MyViewModel
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.yesButton
+import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
 
-class HomeFragment : Fragment(), Injectable {
+class HomeFragment : Location(), Injectable, View.OnClickListener {
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.forecast_btn -> {
+                val action = HomeFragmentDirections.homeToForecastWeatherNavGraph(city)
+                navController.navigate(action)
+            }
+        }
+    }
+
+    override fun showMessageWhenLocAndPermDisabled(loc: Boolean) {
+        if (loc)
+            context?.toast("Please turn on location")
+        else
+            context?.toast("Please grant permission for location")
+        getCurrentWeather("London")
+    }
+
+    override fun updateLatLong(lat: String, long: String) {
+        val geoCoder = Geocoder(context, Locale.getDefault()) //it is Geocoder
+        try {
+            val address = geoCoder.getFromLocation(lat.toDouble(), long.toDouble(), 1)
+            getCurrentWeather(address[0]?.locality ?: "London")
+        } catch (e: IOException) {
+            context?.toast("Unable to get current location")
+            getCurrentWeather("London")
+        } catch (e: NullPointerException) {
+            context?.toast("Unable to get current location")
+            getCurrentWeather("London")
+        }
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: MyViewModel
@@ -30,6 +65,7 @@ class HomeFragment : Fragment(), Injectable {
     private lateinit var navController: NavController
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var city: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,19 +80,18 @@ class HomeFragment : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        getCurrentWeather()
-
+        binding.progressBar.visibility = View.VISIBLE
+        binding.forecastBtn.setOnClickListener(this)
     }
 
-    private fun getCurrentWeather() {
-        viewModel.updatePassword("London")
+    private fun getCurrentWeather(city: String) {
+        this.city = city
+        viewModel.todayWeather(city)
             .observe(viewLifecycleOwner, Observer { result ->
-
                 when (result) {
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
                         updateView(result.data)
-                        Toast.makeText(context, result.data.main?.temp, Toast.LENGTH_SHORT).show()
                     }
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -102,7 +137,8 @@ class HomeFragment : Fragment(), Injectable {
     }
 
     fun updateView(result: ResultResponse) {
-        binding.tvLocation.text = "London"
+        binding.tvWeather.visibility = View.VISIBLE
+        binding.tvLocation.text = result.name
         binding.tvWeather.text =
             result.main?.temp?.toDouble()?.let { KelvinToCelsiusConverter.convertKelToCel(it) }
 
@@ -115,6 +151,14 @@ class HomeFragment : Fragment(), Injectable {
                         it
                     )
                 })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (LOCATION_SETTINGS_REQUEST == 1 && resultCode == 0) {
+            showMessageWhenLocAndPermDisabled(true)
+        } else if (LOCATION_SETTINGS_REQUEST == 1 && resultCode == -1) {
+            update()
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.weather.service
 
+import com.example.weather.model.ForecastResponse
 import com.example.weather.model.ResultResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,10 +19,17 @@ interface ApiService {
     }
 
     @GET(TODAY_WEATHER)
-    suspend fun updatePassword(
+    suspend fun todayWeather(
         @Query(APPID) appid: String,
         @Query(Q) q: String
     ): Response<ResultResponse>
 
+
+    @GET(FORECAST_WEATHER)
+    suspend fun forecastWeather(
+        @Query(APPID) appid: String,
+        @Query(Q) q: String,
+        @Query(COUNT) cnt: Int
+    ): Response<ForecastResponse>
 }
 
