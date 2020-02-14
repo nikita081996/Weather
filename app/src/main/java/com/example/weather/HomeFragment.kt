@@ -94,6 +94,7 @@ class HomeFragment : Location(), Injectable, View.OnClickListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 view?.let { AppUtils.hideKeyboard(it) }
+                binding.searchCity.isIconifiedByDefault = true
                 getCurrentWeather(query)
                 return true
             }
@@ -147,16 +148,4 @@ class HomeFragment : Location(), Injectable, View.OnClickListener {
             update()
         }
     }
-
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-
-        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView: SearchView? = searchItem?.actionView as SearchView
-
-        searchView?.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        return super.onCreateOptionsMenu(menu)
-    }
-*/
 }
