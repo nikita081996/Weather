@@ -4,11 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.di.ViewModelFactory
 import com.example.weather.di.ViewModelKey
+import com.example.weather.di.WeatherAPI
 import com.example.weather.viewmodel.MyViewModel
-
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Suppress("unused")
 @Module

@@ -23,12 +23,6 @@ class AppModule {
         converterFactory: MoshiConverterFactory
     ) = provideService(okhttpClient, converterFactory, ApiService::class.java)
 
-
-//    @Singleton
-//    @Provides
-//    fun provideDashboardRemoteDataSource(apiService: ApiService) =
-//        DashboardRemoteDataSource(apiService)
-
     @WeatherAPI
     @Provides
     fun providePrivateOkHttpClient(

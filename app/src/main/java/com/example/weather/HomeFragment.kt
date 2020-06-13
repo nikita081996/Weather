@@ -73,6 +73,7 @@ class HomeFragment : Location(), Injectable, View.OnClickListener {
     ): View? {
         viewModel = injectViewModel(viewModelFactory)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        viewModel.data = 1
         context ?: return binding.root
         return binding.root
     }

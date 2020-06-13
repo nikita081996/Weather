@@ -16,4 +16,6 @@ class MyViewModel @Inject constructor(repository: DashboardRepository) : ViewMod
 
     var forecastWeather: (q: String) -> LiveData<Result<ForecastResponse>> =
         { q -> repository.forecastWeather(q) }
+
+    var data : Int = 0
 }
